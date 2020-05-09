@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,35 +12,11 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="CodeForCoronaBaseFile" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3io-gd-ze2">
-                                <rect key="frame" x="20" y="181" width="374" height="681"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gXW-Tu-WrF">
-                                        <rect key="frame" x="40" y="30" width="294" height="128"/>
-                                        <color key="backgroundColor" systemColor="tertiaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="294" id="aeX-Tg-dJZ"/>
-                                            <constraint firstAttribute="height" constant="128" id="c54-hc-2kZ"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="gXW-Tu-WrF" firstAttribute="top" secondItem="3u6-Cl-bEI" secondAttribute="top" constant="30" id="0Vz-Kw-I2e"/>
-                                    <constraint firstAttribute="bottom" secondItem="gXW-Tu-WrF" secondAttribute="bottom" constant="523" id="1ec-pL-3wg"/>
-                                    <constraint firstAttribute="trailing" secondItem="gXW-Tu-WrF" secondAttribute="trailing" constant="40" id="HwQ-0Y-79e"/>
-                                    <constraint firstItem="gXW-Tu-WrF" firstAttribute="centerX" secondItem="3io-gd-ze2" secondAttribute="centerX" id="krR-zx-ng5"/>
-                                </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="eqg-LJ-0iw"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="3u6-Cl-bEI"/>
-                            </scrollView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WFC-3i-uIT">
-                                <rect key="frame" x="30" y="44" width="364" height="77"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="77" id="YbO-hL-QxC"/>
-                                </constraints>
+                                <rect key="frame" x="102" y="9" width="171.5" height="68"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Today">
                                         <attributes>
@@ -52,32 +28,56 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8U5-03-D8P">
-                                <rect key="frame" x="103" y="129" width="208" height="30"/>
+                                <rect key="frame" x="83.5" y="85" width="208" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="2Pt-Qz-b9B"/>
+                                </constraints>
                                 <state key="normal" title="Search Near: Current Location"/>
+                                <connections>
+                                    <action selector="Location:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5om-65-S4S"/>
+                                </connections>
                             </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3io-gd-ze2">
+                                <rect key="frame" x="20" y="123" width="335" height="530"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="432-5Q-h7Z">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="530"/>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="432-5Q-h7Z" firstAttribute="centerX" secondItem="3io-gd-ze2" secondAttribute="centerX" id="2QV-Cz-Grv"/>
+                                    <constraint firstAttribute="trailing" secondItem="432-5Q-h7Z" secondAttribute="trailing" id="LYa-G5-KMJ"/>
+                                    <constraint firstItem="432-5Q-h7Z" firstAttribute="top" secondItem="3u6-Cl-bEI" secondAttribute="top" id="Xiz-qQ-tIM"/>
+                                    <constraint firstAttribute="bottom" secondItem="432-5Q-h7Z" secondAttribute="bottom" id="Zfc-M2-CzA"/>
+                                    <constraint firstItem="432-5Q-h7Z" firstAttribute="leading" secondItem="3u6-Cl-bEI" secondAttribute="leading" id="uOI-oM-KyZ"/>
+                                    <constraint firstItem="432-5Q-h7Z" firstAttribute="bottom" secondItem="3u6-Cl-bEI" secondAttribute="bottom" id="wF4-2d-2pm"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="eqg-LJ-0iw"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="3u6-Cl-bEI"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8U5-03-D8P" secondAttribute="trailing" constant="103" id="BE7-Cb-QJj"/>
-                            <constraint firstItem="3io-gd-ze2" firstAttribute="centerX" secondItem="8U5-03-D8P" secondAttribute="centerX" id="BFj-nC-rgo"/>
-                            <constraint firstItem="WFC-3i-uIT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="DP4-dJ-bh9"/>
-                            <constraint firstItem="3io-gd-ze2" firstAttribute="top" secondItem="8U5-03-D8P" secondAttribute="bottom" constant="22" id="JVX-aZ-mNz"/>
-                            <constraint firstItem="8U5-03-D8P" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="103" id="UeG-1l-JKT"/>
-                            <constraint firstItem="3io-gd-ze2" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="cDE-2t-fO1"/>
-                            <constraint firstItem="8U5-03-D8P" firstAttribute="top" secondItem="WFC-3i-uIT" secondAttribute="bottom" constant="8" id="o3Y-Av-MYl"/>
-                            <constraint firstItem="3io-gd-ze2" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="vlQ-Uv-11l"/>
-                            <constraint firstItem="WFC-3i-uIT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="wtU-D8-owR"/>
-                            <constraint firstItem="3io-gd-ze2" firstAttribute="trailing" secondItem="WFC-3i-uIT" secondAttribute="trailing" id="xm4-B0-yHg"/>
+                            <constraint firstItem="WFC-3i-uIT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="9" id="KGy-OV-rLA"/>
+                            <constraint firstItem="3io-gd-ze2" firstAttribute="top" secondItem="8U5-03-D8P" secondAttribute="bottom" constant="8" id="OP4-pU-UYt"/>
+                            <constraint firstItem="8U5-03-D8P" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="UEx-sP-cLY"/>
+                            <constraint firstItem="3io-gd-ze2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="bSL-lo-aPx"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="3io-gd-ze2" secondAttribute="bottom" constant="14" id="bfB-4A-0w6"/>
+                            <constraint firstItem="8U5-03-D8P" firstAttribute="top" secondItem="WFC-3i-uIT" secondAttribute="bottom" constant="8" id="jWh-o8-anG"/>
+                            <constraint firstItem="3io-gd-ze2" firstAttribute="centerX" secondItem="8U5-03-D8P" secondAttribute="centerX" id="oqz-fz-IcD"/>
+                            <constraint firstItem="WFC-3i-uIT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="s7d-wA-Nb4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="View1" destination="gXW-Tu-WrF" id="n8i-tw-pKU"/>
+                        <outlet property="Scroll" destination="3io-gd-ze2" id="UWc-Wj-EfE"/>
+                        <outlet property="SearchLocation" destination="8U5-03-D8P" id="VNQ-r2-CAQ"/>
+                        <outlet property="Stack" destination="432-5Q-h7Z" id="ePp-cy-x8L"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="137.68115942028987" y="129.91071428571428"/>
+            <point key="canvasLocation" x="136.80000000000001" y="129.08545727136433"/>
         </scene>
     </scenes>
 </document>
