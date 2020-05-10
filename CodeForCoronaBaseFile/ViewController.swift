@@ -10,6 +10,72 @@ import UIKit
 import MapKit
 import CoreLocation
 
+var usr:String?
+
+struct JobData: Codable {
+    var location:String
+    var Items:String
+    var EstCost:Float
+    var itemNo: Int
+    var user:String
+    var payMethod: String
+}
+
+class loginController: UIViewController {
+    
+    @IBOutlet var output: UILabel!
+    @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var email: UITextField!
+    override func viewDidLoad(){
+        super.viewDidLoad()
+    }
+    
+    
+    @IBAction func loginRequest(_ sender: Any) {
+        if(password.text?.isEmpty ?? true || email.text?.isEmpty ?? true){
+            output.text = "You must enter your email/password"
+            return
+        }
+        if(UserDefaults.standard.object(forKey: email.text!) == nil){
+            output.text = "There is no account tied to that email"
+            return
+        }
+        if(UserDefaults.standard.string(forKey: email.text!) == password.text){
+            usr = email.text
+            performSegue(withIdentifier: "loginConfirmed", sender: Any?.self)
+        } else {
+            output.text = "Incorrect password"
+            return
+        }
+        
+    }
+}
+
+class registerController: UIViewController {
+    
+    
+    @IBOutlet var output: UILabel!
+    @IBOutlet weak var email: UITextField!
+    @IBOutlet weak var password: UITextField!
+    override func viewDidLoad(){
+        super.viewDidLoad()
+    }
+    @IBAction func signupRequest(_ sender: Any) {
+        if(email.text?.isEmpty ?? true || password.text?.isEmpty ?? true){
+            output.text = "You must enter your email/password"
+            return
+        }
+        if(UserDefaults.standard.object(forKey: email.text!) == nil){
+            UserDefaults.standard.set(password.text!, forKey: email.text!)
+            performSegue(withIdentifier: "signupConfirmed", sender: Any?.self)
+        } else {
+            output.text = "there is already an account under that email"
+        }
+    }
+    
+}
+
+
 class ViewController: UIViewController {
     @IBOutlet weak var SearchLabel: UIButton!
     @IBOutlet weak var SearchLocation: UIButton!
@@ -18,12 +84,22 @@ class ViewController: UIViewController {
     public var Jobs = [UIView]()
     public var ETALabels = [UILabel]()
     public var currentView = 0
-    public var JobList = [("UWC Dover, 1207 Dover Road, Singapore", 10,  Float(50.00)), ("Paragon", 4, Float(90.00)), ("Changi Airport", 20, Float(101.00)), ("Fairprice HUB, 1 Joo Koon Cir, Singapore 629116", 20, 75.00)]
+    public var JobList:Array<JobData> = []
     
     var currentLocation: CLLocation!
     var locationManager = CLLocationManager()
     override func viewDidLoad() {
         super.viewDidLoad()
+        if(UserDefaults.standard.object(forKey: "Jobs") != nil){
+            print("a")
+            let fetch  = UserDefaults.standard.data(forKey: "Jobs")
+            self.JobList = try! PropertyListDecoder().decode([JobData].self, from: fetch!)
+            print(self.JobList)
+        } else {
+            let jb = try! PropertyListEncoder().encode([JobData(location: "UWCDover 1207 Dover Road, Singapore", Items: "10", EstCost: 50.00, itemNo: 0, user: "David", payMethod: "Paypal")])
+            UserDefaults.standard.set(jb, forKey:"Jobs")
+            print("b")
+        }
         // Do any additional setup after loading the view.
         
         locationManager.requestWhenInUseAuthorization()
@@ -32,7 +108,6 @@ class ViewController: UIViewController {
         locationManager.startUpdatingLocation()
         let currentLocation = self.locationManager.location?.coordinate
         print(currentLocation ?? "NONE")
-        
 //        Scroll.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20)
 //        Scroll.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
 //        Scroll.topAnchor.constraint(equalTo: SearchLabel.bottomAnchor, constant: 20)
@@ -50,7 +125,7 @@ class ViewController: UIViewController {
 //          Stack.widthAnchor.constraint(equalTo: Scroll.widthAnchor)
 //        ])
         
-        AddJob(location: "UWC Dover, 1207 Dover Road, Singapore", Items: 10, EstCost: 50.00, itemNo: 0)
+        AddJob(job: self.JobList[0])
         //AddJob(location: "Paragon", Items: 5, EstCost: 34.00, itemNo: 1)
         
         //AddJob(location: "1207 Dover Road, Singapore", Items: 10, EstCost: 50.00, itemNo: 0)
@@ -67,7 +142,7 @@ class ViewController: UIViewController {
                 if error == nil {
                     let firstLocation = placemarks?[0]
                     //SearchLocation.setTitle("Search Near: " + String(firstLocation!), for: .normal)
-                    print(firstLocation)
+                    print(firstLocation!)
                 }
                 else {
                  // An error occurred during geocoding.
@@ -128,9 +203,9 @@ class ViewController: UIViewController {
                         //let View = self.Jobs[0]
                         self.ETALabels[self.currentView].text = "ETA Mins away: " + travelTime
                         self.Jobs[self.currentView].addSubview(self.ETALabels[self.currentView])
-                        if self.currentView < 3{
+                        if self.currentView < self.JobList.count{
+                            self.AddJob(job: self.JobList[self.currentView])
                             self.currentView += 1
-                            self.AddJob(location: self.JobList[self.currentView].0, Items: self.JobList[self.currentView].1, EstCost: self.JobList[self.currentView].2, itemNo: self.currentView)
                         }
                     }
                     return
@@ -142,8 +217,8 @@ class ViewController: UIViewController {
         }
     }
     
-    func AddJob(location:String, Items:Int, EstCost:Float, itemNo: Int){
-        let y = 18 + 168*itemNo
+    func AddJob(job: JobData){
+        let y = 18 + 168*job.itemNo
         let View = UIView(frame: CGRect(x: 27, y: y, width: Int(self.view.bounds.size.width) - 54 - 40, height: 150))
         View.backgroundColor = UIColor(displayP3Red: 255/256, green: 70/256, blue: 0, alpha: 0.42*0.75)
         View.layer.cornerRadius = 20;
@@ -158,7 +233,7 @@ class ViewController: UIViewController {
         //print(Title.bounds.size.width)
         Title.textAlignment = .center
         Title.textColor = UIColor.white
-        Title.text = location
+        Title.text = job.location
         Title.font = UIFont(name: "Futura-Bold", size: 25)
 //        Title.layer.borderColor = UIColor.darkGray.cgColor
 //        Title.layer.borderWidth = 3.0
@@ -169,7 +244,7 @@ class ViewController: UIViewController {
         description.textAlignment = .center
         description.textColor = UIColor.white
         description.numberOfLines = 0
-        description.text = String(Items) + " Items     ≈ $" + String(EstCost) + "0"
+        description.text = job.Items + "     ≈ $" + String(job.EstCost) + "0"
         description.font = UIFont(name: "Futura", size: 20)
         View.addSubview(description)
         
@@ -177,8 +252,8 @@ class ViewController: UIViewController {
         ETALabel.textAlignment = .center
         ETALabel.textColor = UIColor.white
         ETALabel.numberOfLines = 0
-        currentView = itemNo
-        getDestination(location: location) {(placemark, error) in
+        currentView = job.itemNo
+        getDestination(location: job.location) {(placemark, error) in
             guard let placemark = placemark, error == nil else { return }
             print("Destination is: ")
             print(placemark)
